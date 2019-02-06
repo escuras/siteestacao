@@ -1,6 +1,7 @@
 var express = require("express");
 const bodyParser = require('body-parser');
 var app = express();
+const port = process.env.PORT || 8080;
 var router = express.Router();
 var path = __dirname + '/views/';
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
@@ -98,6 +99,6 @@ app.use("*", function (req, res) {
     res.sendFile(path + "404.html");
 });
 
-app.listen(8080, function () {
-    console.log("Live at Port 8080");
+app.listen(port, function () {
+    console.log("Live at Port " + port);
 });
