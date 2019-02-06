@@ -1,0 +1,35 @@
+<html>
+
+<head>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+    <script>
+        function refresh() {
+
+            setTimeout(function redirect() {
+                window.location.replace("/");
+            }, 4000);
+        }
+    </script>
+</head>
+
+<body onload="refresh()">
+    <div>
+        <div>
+            <nav class="navbar navbar-inverse" role="navigation" style="padding-left:130px;">
+                <ul class="nav navbar-nav">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about">About us</a></li>
+                    <li class="active"><a href="/login">Login<span class="sr-only">(current)</span></a></li>
+                </ul>
+            </nav>
+        </div>
+        <div class="jumbotron">
+            <p>
+                <%= text %>
+            </p>
+        </div>
+    </div>
+</body>
+
+</html>

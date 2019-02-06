@@ -1,0 +1,38 @@
+body {
+  background-color: powderblue;
+}
+
+#btLogout {
+    margin-right: 30px;
+    margin-top: 8px;
+    cursor: pointer;
+}
+
+#imgLogout {
+    width: 30px;
+    height: 100%;
+}
+
+#welcomeImage {
+    border-radius: 25px; 
+    border: solid 2px; 
+    height:400px; 
+    width:60%;
+}
+
+.center {
+    text-align: center; 
+    width: 100;
+}
+
+form {
+    width: 30%; 
+    margin: 40px;
+    border: 1px solid;
+    padding: 30px;
+    box-shadow: 5px 10px;
+    display: inline-block; 
+    background-color: azure;
+    text-align: center;
+}
+
