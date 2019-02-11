@@ -7,6 +7,8 @@
     <link rel="stylesheet" href="/styles/bootstrap.min.css">
     <script src="/scripts/bootstrap.min.js"></script>
     <link rel="stylesheet" type="text/css" href="/styles/style.css">
+    <link rel="icon" href="/images/sun.png">
+    <link rel="icon" href="/images/sun.png">
     <script src="/scripts/script.js"></script>
 </head>
 
@@ -14,17 +16,32 @@
     <div>
         <div>
             <nav class="navbar navbar-inverse" role="navigation" style="padding-left:130px;">
-                <ul class="nav navbar-nav">
+                <ul id="headbar" class="nav navbar-nav">
                     <li><a href="/">Home</a></li>
                     <li class="active"><a href="/about">Sobre<span class="sr-only">(current)</span></a></li>
-                    <li id="createUser"><a href="/create">Criar conta</a></li>
+                    <li id="liConfig"><a href="/config">Configurações</a></li>
+                    <li id="liCreateUser"><a href="/create">Criar conta</a></li>
                 </ul>
+                <div id=divLogout style="color: rgb(233, 233, 233); text-align: right">
+                    <span id="nameUser" style="margin-right: 15px;">Sair</span>
+                    <button onclick="logout()" id="btLogout"><img id="imgLogout" src="/images/logout.png"></button>
+                </div>
             </nav>
         </div>
         <br />
-        <div class="jumbotron">
-            <p>
-                Put detail description about you and your company.
+        <div class="center">
+            <p id="ptext">
+                Projeto desenvolvido para a disciplina de sistemas distribuídos <br />
+                do mestrado em Computação móvel na Escola Superior de Tecnologia <br />
+                e Gestão do Instituto Politécnico da Guarda. <br />
+                Esta página funciona com o recurso a uma API externa, onde são <br />
+                obtidos recursos como criação e edição de utilizadores, configurações <br />
+                e registo de temperatura (a ideia original pretendia enriquecer este registo <br />
+                com mais sensores, com vista a criação de uma autêntica estação metereológica). <br />
+                Qualquer utilizador com registo pode descarregar a aplicação existente no <br />
+                menu configurações, ainda poderão encontrar um manual para configuração da <br />
+                aplicação e ligação do raspberry a um sensor de temperatura (com mais tempo mais <br />
+                sensores irão sendo acrescentados).
             </p>
         </div>
     </div>

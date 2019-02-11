@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 var app = express();
 const port = process.env.PORT || 8080;
 var router = express.Router();
+const herokuUrl = "https://metereologia.herokuapp.com";
 var path = __dirname + '/views/';
 var XMLHttpRequest = require("xmlhttprequest").XMLHttpRequest;
 
@@ -32,20 +33,38 @@ router.get("/create", function (req, res) {
     res.sendFile(path + "create.html");
 });
 
+router.get("/config", function (req, res) {
+    res.sendFile(path + "config.html");
+});
+
 router.post("/getuser", function (req, res) {
     var password = req.body.password;
     var email = req.body.email;
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            var user = JSON.parse(this.responseText);
-            res.cookie("account", user.id);
-            res.cookie("name", user.name);
-            res.cookie("email", user.email);
-            res.redirect("/");
+        if (this.readyState == 4) {
+            switch (this.status) {
+                case 200:
+                    var user = JSON.parse(this.responseText);
+                    res.cookie("account", user.id);
+                    res.cookie("name", user.name);
+                    res.cookie("email", user.email);
+                    res.cookie("call", true);
+                    res.redirect("/");
+                    break;
+                case 401:
+                    res.render("infoback", { text: "A password é necessária." });
+                    break;
+                case 402:
+                    res.render("infoback", { text: "O utilizador não existe." });
+                    break;
+                default:
+                    res.render("infoback", { text: "Problema desconhecido. Contacte o administrador" });
+                    break;
+            }
         }
     };
-    xhttp.open("POST", "https://metereologia.herokuapp.com/api/user/get", true);
+    xhttp.open("POST", herokuUrl + "/api/user/get", true);
     xhttp.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
     if (email !== "") {
         var params = "email=" + email + "&password=" + password;
@@ -55,8 +74,76 @@ router.post("/getuser", function (req, res) {
     }
 });
 
-router.post("/createuser", function (req, res) {
+router.get("/temp", function (req, res) {
+    var account = req.query.account;
+    var start = req.query.start;
+    var end = req.query.end;
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status >= 200 && this.status < 400) {
+            var data = JSON.parse(this.responseText);
+            res.send(data);
+        }
+    };
+    var params = "?account=" + account + "&start=" + new Date(12, 04, 2018).toISOString() + "&end=" + new Date().toISOString();
+    xhttp.open("GET", herokuUrl + "/api/temperature/get" + params);
+    xhttp.setRequestHeader("Content-Type", "application/json;  charset=utf-8");
+    if (account !== "") {
+        xhttp.send();
+    }
+});
 
+
+router.post("/config", function (req, res) {
+    var account = req.body.account;
+    console.log("account " + account);
+    var period = req.body.period;
+    console.log("period " + period);
+    var dynduration = req.body.dynduration;
+    console.log("dynduration " + dynduration);
+    var staticDateStart = req.body.staticDateStart;
+    console.log("staticDateStart " + staticDateStart);
+    var staticDateEnd = req.body.staticDateEnd;
+    console.log("staticDateEnd " + staticDateEnd);
+    var staticTimeStart = req.body.staticTimeStart;
+    console.log("staticTimeStart " + staticTimeStart);
+    var staticTimeEnd = req.body.staticTimeEnd;
+    console.log("staticTimeEnd " + staticTimeEnd);
+
+    var xhttp = new XMLHttpRequest();
+    xhttp.onreadystatechange = function () {
+        if (this.readyState == 4 && this.status >= 200 && this.status < 400) {
+            let options = {
+                maxAge: ((1000 * 60 * 60 * 24) * 365) * 10,
+                httpOnly: false,
+                signed: false
+            }
+            res.cookie(account + "&" + "dynduration", dynduration, options);
+            res.cookie(account + "&" + "staticDateStart", staticDateStart, options);
+            res.cookie(account + "&" + "staticDateEnd", staticDateEnd, options);
+            res.cookie(account + "&" + "staticTimeStart", staticTimeStart, options);
+            res.cookie(account + "&" + "staticTimeEnd", staticTimeEnd, options);
+            res.cookie(account + "&" + "period", period);
+            res.render("infoback", { text: "Os valores foram atualizados." })
+        } else if (this.readyState == 4 && this.status == 401) {
+            res.render("info", { text: `O periodo de leitura é necessário.` });
+        } else if (this.readyState == 4 && this.status == 402) {
+            res.render("info", { text: `A conta de utilizador é necessária.` });
+        } else if (this.readyState == 4 && this.status == 403) {
+            res.render("info", { text: `A conta indicada não existe.` });
+        } else if (this.readyState == 4) {
+            res.render("info", { text: `Problema desconhecido, contacte o administrador.` });
+        }
+    };
+    var params = "?account=" + account + "&period=" + period;
+    xhttp.open("PUT", herokuUrl + "/api/configuration" + params);
+    xhttp.setRequestHeader("Content-Type", "application/json;  charset=utf-8");
+    if (account !== "") {
+        xhttp.send();
+    }
+});
+
+router.post("/createuser", function (req, res) {
     var name = req.body.name;
     var password = req.body.password;
     var email = req.body.email;
@@ -81,12 +168,15 @@ router.post("/createuser", function (req, res) {
                     res.render("info", { text: "Existe um utilizador com o mesmo nome." });
                     break;
                 case 403:
-                    res.render("info", { text: "Existe um utilizador com o mesmo email." })
+                    res.render("info", { text: "Existe um utilizador com o mesmo email." });
+                    break;
+                default:
+                    res.render("infoback", { text: "Problema desconhecido. Contacte o administrador" });
                     break;
             }
         }
     };
-    xhttp.open("POST", "https://metereologia.herokuapp.com/api/user", true);
+    xhttp.open("POST", herokuUrl + "/api/user", true);
     xhttp.setRequestHeader("Content-Type", "application/json;charset=UTF-8");
     var json = `{ "name": "${name}", "password": "${password}", "email": "${email}" }`;
     xhttp.send(json);

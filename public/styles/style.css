@@ -18,11 +18,80 @@ body {
     border: solid 2px; 
     height:400px; 
     width:60%;
+    box-shadow: 5px 5px black;
+}
+
+#dynamicGraph {
+    background-color: rgb(189, 186, 183);
+    padding: 20px;
+    margin: 30px;
+    
+}
+
+.thBigTitle{
+    text-align: center;
+    font-size: 20px;
+    font-style: normal;
+}
+
+.formConfig {
+    width: 60%; 
+    margin: 0 auto;
+}
+
+.thTitle{
+    text-align: center;
+    font-size: 16px;
+    font-style: normal;
+}
+
+.thLitleTitle {
+    text-align: center; 
+    font-size: 12px;
+    font-style: normal;
 }
 
 .center {
-    text-align: center; 
-    width: 100;
+    text-align: center;
+    width: 100%;
+}
+
+#divInformation {
+    height: 80px; 
+}
+
+#pInformation {
+    font-size: 35px; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    padding-top: 30px;
+}
+
+#ptext {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 30px;
+    text-align: center;
+    width: 100%;
+}
+
+#paviso {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    width: 100%;
+    font-size: 45px;
+}
+
+#pTituloAviso {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    color: gainsboro;
+    width: 100%;
+    font-size: 25px;
+}
+
+.idTituloAviso{
+    border-radius: 5px;
+    background-color: rgb(39, 39, 39);
+    height: 50px;
 }
 
 form {
@@ -34,5 +103,66 @@ form {
     display: inline-block; 
     background-color: azure;
     text-align: center;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+thead{
+    height: 80px; 
+    color: white; 
+    border: solid black 2px; 
+    border-radius: 40px; 
+    background-color: rgb(93, 94, 97); 
+    margin: 100px;
+}
+
+th,
+td {
+    text-align: left;
+    padding: 8px 15px;
+}
+
+th {
+    border-bottom: 1px solid #f2f2f2;
+    font-size: 16px;
+    text-transform: uppercase;
+    font-style: italic;
+}
+
+td {
+    border: none;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.row {
+    display: flex;
+    align-items: start;
+}
+
+.col-60,
+.col-40 {
+    display: inline-block;
+    padding: 15px;
+    min-height: 5px;
+}
+
+.col-40 {
+    width: 40%;
+}
+
+.col-60 {
+    width: 60%;
+}
+
+@media (min-width:768px){
+    .divLogout{
+        text-align: left;
+    }
 }
 

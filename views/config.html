@@ -1,0 +1,131 @@
+<html>
+
+<head>
+    <script src="/scripts/angular.min.js"></script>
+    <script src="/scripts/angular-route.min.js"></script>
+    <script src="/scripts/jquery.min.js"></script>
+    <link rel="stylesheet" href="/styles/bootstrap.min.css">
+    <script src="/scripts/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="/styles/style.css">
+    <script src="/scripts/script.js"></script>
+</head>
+
+<body onload="getConfigurations()">
+    <div>
+        <div>
+            <nav class="navbar navbar-inverse" role="navigation" style="padding-left:130px;">
+                <ul class="nav navbar-nav">
+                    <li><a href="/">Home</a></li>
+                    <li><a href="/about">Sobre</a></li>
+                    <li id="liConfig" class="active"><a href="/config">Configurações<span class="sr-only">(current)</span></a></li>
+                </ul>
+                <div id=divLogout style="color: rgb(233, 233, 233); text-align: right">
+                    <span id="nameUser" style="margin-right: 15px;">Sair</span>
+                    <button onclick="logout()" id="btLogout"><img id="imgLogout" src="/images/logout.png"></button>
+                </div>
+            </nav>
+        </div>
+        <br /> <br />
+        <div class="center">
+            <form class="formConfig" method="POST" action="/config" role="form">
+                <table style="margin: 0 auto;">
+                    <thead>
+                        <tr>
+                            <th class="thBigTitle">Descrição</th>
+                            <th class="thBigTitle">Valor</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th class="thTitle">
+                                Tempo de leitura
+                            </th>
+                            <td>
+                                <select id="period" name="period" class="form-control">
+                                    <option value="5">5 segundos</option>
+                                    <option value="10">10 segundos</option>
+                                    <option value="30">30 segundos</option>
+                                    <option value="60">1 minuto</option>
+                                    <option value="600">10 minutos</option>
+                                    <option value="1800">30 minutos</option>
+                                    <option value="3600">1 hora</option>
+                                    <option value="18000">5 horas</option>
+                                    <option value="36000">10 horas</option>
+                                    <option value="86400">24 horas</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="thTitle">
+                                Intervalo do gráfico dinâmico
+                            </th>
+                            <td style="text-align: center; margin-top: 60px;">
+                                <select id="dynduration" name="dynduration" class="form-control">
+                                    <option value="600">10 minutos</option>
+                                    <option value="1800">30 minutos</option>
+                                    <option value="3600">1 hora</option>
+                                    <option value="21600">6 horas</option>
+                                    <option value="43200">12 horas</option>
+                                    <option value="86400">24 horas</option>
+                                </select>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="thTitle">
+                                Data de início em gráficos estáticos
+                            </th>
+                            <td style="width: 50%">
+                                <input id="staticDateStart" name="staticDateStart" value="" class="form-control" type="date" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="thLitleTitle">
+                                Hora de início em gráficos estáticos
+                            </th>
+                            <td style="width: 50%">
+                                <input id="staticTimeStart" name="staticTimeStart" value="" class="form-control" type="time" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="thTitle">
+                                Data de fim em gráficos estáticos
+                            </th>
+                            <td style="width: 50%">
+                                <input id="staticDateEnd" name="staticDateEnd" value="" class="form-control" type="date" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="thLitleTitle">
+                                Hora de fim em gráficos estáticos
+                            </th>
+                            <td style="width: 50%">
+                                <input id="staticTimeEnd" name="staticTimeEnd" class="form-control" type="time" value="" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="thTitle">
+                                A sua conta
+                            </th>
+                            <td style="width: 50%">
+                                <div id="spanAccount"></div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <th class="thTitle">
+                                Aplicação para raspberry
+                            </th>
+                            <td style="width: 50%">
+                                <a href="/images/sun.png" download>raspberry.zip</a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <br />
+                <input id="inputAccount" type="hidden" value="" name="account">
+                <input class="btn btn-primary" type="submit" name="submit" value="Gravar" />
+            </form>
+        </div>
+
+</body>
+
+</html>
