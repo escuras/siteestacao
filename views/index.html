@@ -72,14 +72,97 @@
             </div>
         </form>
     </div>
-    <div id="divGraphs">
-        <div id="dynamicGraph" class="dynamicGraph" style=" text-align:center; width:  70%; height: 400px; border: solid black 2px">
-            <canvas style="width:  100%; height: 100%;" id="myChart"></canvas>
+    <div id="divGraphs" style="width: 100%;">
+        <div id="dynamicGraph" class="graph" style="margin-left: 20%">
+            <canvas id="myChartDynamic"></canvas>
+        </div>
+        <br />
+        <br />
+        <div style="width:60%; margin-left: 20%">
+            <table>
+                <tr>
+                    <td style="text-align: center">
+                        Temperatura máxima
+                    </td>
+                    <td id="dynTempMax" style="text-align: center">
+                        Sem dados
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center">
+                        Temperatura mínima
+                    </td>
+                    <td id="dynTempMin" style="text-align: center">
+                        Sem dados
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center">
+                        Temperatura média
+                    </td>
+                    <td id="dynTempMed" style="text-align: center">
+                        Sem dados
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align: center">
+                        Amplitude térmica
+                    </td>
+                    <td id="dynTempAmp" style="text-align: center">
+                        Sem dados
+                    </td>
+                </tr>
+            </table>
+        </div>
+        <br />
+        <br />
+        <div id="staticGraph" class="graph" style="margin-left: 20%">
+            <canvas id="myChartStatic"></canvas>
+        </div>
+        <br />
+        <br />
+        <div style="width:60%; margin-bottom: 100px; margin-left: 20%">
+            <table>
+                <tr>
+                    <td>
+                        Temperatura máxima:
+                    </td>
+                    <td id="staticTempMax">
+                        Sem dados
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Temperatura mínima:
+                    </td>
+                    <td id="staticTempMin">
+                        Sem dados
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Temperatura média:
+                    </td>
+                    <td id="staticTempMed">
+                        Sem dados
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Amplitude térmica:
+                    </td>
+                    <td id="staticTempAmp">
+                        Sem dados
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
+    <br />
+    <br />
+    <div>
 
-
-
+    </div>
 </body>
 
 </html>

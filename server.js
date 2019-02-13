@@ -78,6 +78,8 @@ router.get("/temp", function (req, res) {
     var account = req.query.account;
     var start = req.query.start;
     var end = req.query.end;
+    console.log(start);
+    console.log(end);
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status >= 200 && this.status < 400) {
@@ -85,7 +87,7 @@ router.get("/temp", function (req, res) {
             res.send(data);
         }
     };
-    var params = "?account=" + account + "&start=" + new Date(12, 04, 2018).toISOString() + "&end=" + new Date().toISOString();
+    var params = "?account=" + account + "&start=" + new Date(start).toISOString() + "&end=" + new Date(end).toISOString();
     xhttp.open("GET", herokuUrl + "/api/temperature/get" + params);
     xhttp.setRequestHeader("Content-Type", "application/json;  charset=utf-8");
     if (account !== "") {
@@ -96,19 +98,13 @@ router.get("/temp", function (req, res) {
 
 router.post("/config", function (req, res) {
     var account = req.body.account;
-    console.log("account " + account);
     var period = req.body.period;
-    console.log("period " + period);
     var dynduration = req.body.dynduration;
-    console.log("dynduration " + dynduration);
     var staticDateStart = req.body.staticDateStart;
-    console.log("staticDateStart " + staticDateStart);
     var staticDateEnd = req.body.staticDateEnd;
-    console.log("staticDateEnd " + staticDateEnd);
     var staticTimeStart = req.body.staticTimeStart;
-    console.log("staticTimeStart " + staticTimeStart);
     var staticTimeEnd = req.body.staticTimeEnd;
-    console.log("staticTimeEnd " + staticTimeEnd);
+    var sMeasure = req.body.sMeasure;
 
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
@@ -123,6 +119,7 @@ router.post("/config", function (req, res) {
             res.cookie(account + "&" + "staticDateEnd", staticDateEnd, options);
             res.cookie(account + "&" + "staticTimeStart", staticTimeStart, options);
             res.cookie(account + "&" + "staticTimeEnd", staticTimeEnd, options);
+            res.cookie(account + "&" + "sMeasure", sMeasure, options);
             res.cookie(account + "&" + "period", period);
             res.render("infoback", { text: "Os valores foram atualizados." })
         } else if (this.readyState == 4 && this.status == 401) {

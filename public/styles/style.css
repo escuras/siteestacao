@@ -21,11 +21,14 @@ body {
     box-shadow: 5px 5px black;
 }
 
-#dynamicGraph {
-    background-color: rgb(189, 186, 183);
+.graph {
+    background-color: rgb(106, 125, 150);
+    margin: auto 0;
     padding: 20px;
-    margin: 30px;
-    
+    text-align:center; 
+    width:  60%; 
+    height: 450px; 
+    border: solid black 1px;
 }
 
 .thBigTitle{
@@ -54,6 +57,7 @@ body {
 .center {
     text-align: center;
     width: 100%;
+    margin: auto 0;
 }
 
 #divInformation {
@@ -117,6 +121,11 @@ thead{
     border-radius: 40px; 
     background-color: rgb(93, 94, 97); 
     margin: 100px;
+}
+
+canvas {
+    margin-left: auto;
+    margin-right: auto;
 }
 
 th,
