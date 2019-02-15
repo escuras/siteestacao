@@ -348,13 +348,6 @@ function drawStaticLineGraph(ctx, acc, start, end) {
                     putMin(acc, data, "staticTempMin");
                     putMed(acc, data, "staticTempMed");
                     putAmp(acc, data, "staticTempAmp");
-                    var sMedida = getCookie(acc + "&" + "sMeasure");
-                    if (sMedida == "fahrenheit") {
-                        var values = data.map(x => parseFloat(x.value) * 9 / 5 + 32);
-                    } else {
-                        var values = data.map(x => parseFloat(x.value));
-                    }
-
                     var diference = new Date(end).getTime() - new Date(end).getTime();
                     let grouped = [];
                     if (diference > 97372800000) {
@@ -369,6 +362,14 @@ function drawStaticLineGraph(ctx, acc, start, end) {
                     var staticDate = getValuesByWeak(grouped);
                     var mins = staticDate.values.map(x => x.min);
                     var maxs = staticDate.values.map(x => x.max);
+                    var sMedida = getCookie(acc + "&" + "sMeasure");
+                    if (sMedida == "fahrenheit") {
+                        mins = mins.map(x => Number((parseFloat(x) * 9 / 5 + 32).toFixed(2)));
+                        maxs = maxs.map(x => Number((parseFloat(x) * 9 / 5 + 32).toFixed(2)));
+                    } else {
+                        mins = mins.map(x => Number(parseFloat(x).toFixed(2)));
+                        maxs = maxs.map(x => Number(parseFloat(x).toFixed(2)));
+                    }
                     vLabels = staticDate.dates.map(x => "Entre " + x.minDate + " e " + x.maxDate);
                     new Chart(ctx, {
                         // The type of chart we want to create
