@@ -78,8 +78,6 @@ router.get("/temp", function (req, res) {
     var account = req.query.account;
     var start = req.query.start;
     var end = req.query.end;
-    console.log(start);
-    console.log(end);
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4 && this.status >= 200 && this.status < 400) {
@@ -87,7 +85,15 @@ router.get("/temp", function (req, res) {
             res.send(data);
         }
     };
-    var params = "?account=" + account + "&start=" + new Date(start).toISOString() + "&end=" + new Date(end).toISOString();
+    try {
+        var stDate = new Date(start).toISOString();
+        var edDate = new Date(end).toISOString();
+    } catch (err) {
+        res.status(400);
+        res.render("infoback", { text: "Configure os períodos de leitura." });
+        return;
+    }
+    var params = "?account=" + account + "&start=" + stDate + "&end=" + edDate;
     xhttp.open("GET", herokuUrl + "/api/temperature/get" + params);
     xhttp.setRequestHeader("Content-Type", "application/json;  charset=utf-8");
     if (account !== "") {

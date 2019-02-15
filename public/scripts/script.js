@@ -64,14 +64,14 @@ function getConfigurations() {
     if (cookies.dynduration) {
         dynduration.value = cookies.dynduration;
     } else {
-        dynduration.value = "600";
+        dynduration.value = "43200";
     }
 
     var period = document.getElementById("period");
     if (cookies.period) {
         period.value = cookies.period;
     } else {
-        period.value = "5";
+        period.value = "18000000";
     }
 
     var sMeasure = document.getElementById("sMeasure");
@@ -131,10 +131,10 @@ function putMax(account, data, id) {
     var max = Math.max(...values);
     if (sMedida == "fahrenheit") {
         sMedida = " °F";
-        document.getElementById(id).textContent = (max * 9 / 5 + 32) + sMedida;
+        document.getElementById(id).textContent = Number((max * 9 / 5 + 32).toFixed(2)) + sMedida;
     } else {
         sMedida = " °C";
-        document.getElementById(id).textContent = max + sMedida;
+        document.getElementById(id).textContent = Number((max).toFixed(2)) + sMedida;
     }
 }
 
@@ -144,10 +144,10 @@ function putMin(account, data, id) {
     var min = Math.min(...values);
     if (sMedida == "fahrenheit") {
         sMedida = " °F";
-        document.getElementById(id).textContent = (min * 9 / 5 + 32) + sMedida;
+        document.getElementById(id).textContent = Number((min * 9 / 5 + 32).toFixed(2)) + sMedida;
     } else {
         sMedida = " °C";
-        document.getElementById(id).textContent = min + sMedida;
+        document.getElementById(id).textContent = Number((min).toFixed(2)) + sMedida;
     }
 
 
@@ -160,10 +160,10 @@ function putMed(account, data, id) {
     var med = sum / values.length;
     if (sMedida == "fahrenheit") {
         sMedida = " °F";
-        document.getElementById(id).textContent = (med * 9 / 5 + 32) + sMedida;
+        document.getElementById(id).textContent = Number((med * 9 / 5 + 32).toFixed(2)) + sMedida;
     } else {
         sMedida = " °C";
-        document.getElementById(id).textContent = med + sMedida;
+        document.getElementById(id).textContent = Number((med).toFixed(2)) + sMedida;
     }
 }
 
@@ -174,10 +174,10 @@ function putAmp(account, data, id) {
     var max = Math.max(...values);
     if (sMedida == "fahrenheit") {
         sMedida = " °F";
-        document.getElementById(id).textContent = (max * 9 / 5 + 32) - (min * 9 / 5 + 32) + sMedida;
+        document.getElementById(id).textContent = Number((((min * 9 / 5 + 32) - (max * 9 / 5 + 32)) * - 1).toFixed(2)) + sMedida;
     } else {
         sMedida = " °C";
-        document.getElementById(id).textContent = max - min + sMedida;
+        document.getElementById(id).textContent = Number(((min - max) * - 1).toFixed(2)) + sMedida;
     }
 
 
@@ -186,78 +186,95 @@ function putAmp(account, data, id) {
 function drawDynamicLineGraph(ctx, acc, start, end) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            var data = JSON.parse(this.responseText);
-            if (data.length > 0) {
-                putMax(acc, data, "dynTempMax");
-                putMin(acc, data, "dynTempMin");
-                putMed(acc, data, "dynTempMed");
-                putAmp(acc, data, "dynTempAmp");
-                var sMedida = getCookie(acc + "&" + "sMeasure");
-                if (sMedida == "fahrenheit") {
-                    var values = data.map(x => parseFloat(x.value) * 9 / 5 + 32);
-                } else {
-                    var values = data.map(x => parseFloat(x.value));
-                }
-                vLabels = data.map(x => new Date(x.date).toTimeString());
-                new Chart(ctx, {
-                    // The type of chart we want to create
-                    type: 'line',
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                var data = JSON.parse(this.responseText);
+                if (data.length > 0) {
+                    putMax(acc, data, "dynTempMax");
+                    putMin(acc, data, "dynTempMin");
+                    putMed(acc, data, "dynTempMed");
+                    putAmp(acc, data, "dynTempAmp");
+                    var sMedida = getCookie(acc + "&" + "sMeasure");
+                    if (sMedida == "fahrenheit") {
+                        var values = data.map(x => Number((parseFloat(x.value) * 9 / 5 + 32).toFixed(2)));
+                    } else {
+                        var values = data.map(x => Number(parseFloat(x.value).toFixed(2)));
+                    }
+                    vLabels = data.map(x => new Date(x.date).toTimeString());
+                    new Chart(ctx, {
+                        // The type of chart we want to create
+                        type: 'line',
 
-                    // The data for our dataset
-                    data: {
-                        labels: vLabels,
-                        datasets: [{
-                            label: "My First dataset",
-                            backgroundColor: 'rgb(55, 55, 132)',
-                            borderColor: [
-                                'rgba(255,99,132,1)',
-                                'rgba(54, 162, 235, 1)',
-                                'rgba(255, 206, 86, 1)',
-                                'rgba(75, 192, 192, 1)',
-                                'rgba(153, 102, 255, 1)',
-                                'rgba(255, 159, 64, 1)'
-                            ],
-                            borderWidth: 1,
+                        // The data for our dataset
+                        data: {
+                            labels: vLabels,
+                            datasets: [{
+                                label: "My First dataset",
+                                borderColor: [
+                                    'rgba(0,0,0,1)',
 
-                            borderColor: 'rgb(255, 99, 132)',
-                            data: values,
-                        }]
-                    },
+                                ],
+                                backgroundColor: 'rgba(214, 129, 0, 0.8)',
+                                borderWidth: 1,
 
-                    // Configuration options go here
-                    options: {
-                        maintainAspectRatio: false,
-                        legend: {
-                            display: false,
-                        },
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    fontColor: "#000",
-                                    fontSize: 12
-                                },
-                                gridLines: {
-                                    color: "#000",
-                                    lineWidth: 1,
-                                    zeroLineColor: "#000",
-                                    zeroLineWidth: 1
-                                },
-                                stacked: true
-                            }],
-                            xAxes: [{
-                                display: false
+                                borderColor: 'rgb(0, 0, 0)',
+                                data: values,
                             }]
                         },
-                        animation: {
-                            duration: 5000, // general animation time
-                        },
-                    }
-                });
+
+                        // Configuration options go here
+                        options: {
+                            maintainAspectRatio: false,
+                            legend: {
+                                display: false,
+                            },
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        fontColor: "#000",
+                                        fontSize: 12
+                                    },
+                                    gridLines: {
+                                        color: "#000",
+                                        lineWidth: 1,
+                                        zeroLineColor: "#000",
+                                        zeroLineWidth: 1
+                                    },
+                                    stacked: true
+                                }],
+                                xAxes: [{
+                                    display: false
+                                }]
+                            },
+                            animation: {
+                                duration: 5000, // general animation time
+                            },
+                        }
+                    });
+                } else {
+                    document.getElementById("dynamicGraph").textContent = "Não existem dados para apresentar o gráfico!";
+                    document.getElementById("staticGraph").textContent = "Não existem dados para apresentar o gráfico!";
+                    document.getElementById("dynamicGraph").style.fontSize = "24px";
+                    document.getElementById("dynamicGraph").style.paddingTop = "200px";
+                    document.getElementById("staticGraph").style.fontSize = "24px";
+                    document.getElementById("staticGraph").style.paddingTop = "200px";
+                    document.getElementById("dynTempMax").textContent = "Sem dados";
+                    document.getElementById("dynTempMax").textContent = "Sem dados";
+                    document.getElementById("dynTempMax").textContent = "Sem dados";
+                    document.getElementById("dynTempMax").textContent = "Sem dados";
+                }
             } else {
-                document.getElementById("dynamicGraph").textContent = "Não existem dados para apresentar o gráfico!"
+                document.getElementById("staticGraph").textContent = "Não existem dados para apresentar o gráfico!";
+                document.getElementById("dynamicGraph").textContent = "Não existem dados para apresentar o gráfico!";
                 document.getElementById("dynamicGraph").style.fontSize = "24px";
                 document.getElementById("dynamicGraph").style.paddingTop = "200px";
+                document.getElementById("staticGraph").style.fontSize = "24px";
+                document.getElementById("staticGraph").style.paddingTop = "200px";
+                document.getElementById("dynTempMax").textContent = "Sem dados";
+                document.getElementById("dynTempMax").textContent = "Sem dados";
+                document.getElementById("dynTempMax").textContent = "Sem dados";
+                document.getElementById("dynTempMax").textContent = "Sem dados";
+
             }
         }
     };
@@ -265,73 +282,170 @@ function drawDynamicLineGraph(ctx, acc, start, end) {
     xhttp.send();
 }
 
+function checkDate() {
+    var docStart = document.getElementById("staticDateStart");
+    var docEnd = document.getElementById("staticDateEnd");
+    var docTimeStart = document.getElementById("staticTimeStart");
+    var docTimeEnd = document.getElementById("staticTimeEnd");
+    var cond = new Date(docEnd.value).getTime() - new Date(docStart.value).getTime();
+    if (cond < 0) {
+        docStart.value = docEnd.value;
+        docTimeStart.value = "00:00";
+        docTimeEnd.value = "23:59"
+    } else if (cond == 0) {
+        docTimeStart.value = "00:00";
+        docTimeEnd.value = "23:59"
+    }
+}
+
+Date.prototype.getWeek = function (dat) {
+    var date = new Date(dat);
+    date.setHours(0, 0, 0, 0);
+    // Thursday in current week decides the year.
+    date.setDate(date.getDate() + 3 - (date.getDay() + 6) % 7);
+    // January 4 is always in week 1.
+    var week1 = new Date(date.getFullYear(), 0, 4);
+    // Adjust to Thursday in week 1 and count number of weeks from date to week1.
+    return 1 + Math.round(((date.getTime() - week1.getTime()) / 86400000
+        - 3 + (week1.getDay() + 6) % 7) / 7);
+}
+
+function getValuesByWeak(grouped) {
+    var iterator = grouped.values();
+    let result = iterator.next();
+    var values = [];
+    var dates = [];
+    while (!result.done) {
+        var vals = result.value.map(data => data.value);
+        var valsdate = result.value.map(data => new Date(data.date).getTime());
+        var max = Math.max(...vals);
+        var min = Math.min(...vals);
+        values.push({
+            max: max,
+            min: min
+        });
+        dates.push({
+            maxDate: new Date(Math.max(...valsdate)),
+            minDate: new Date(Math.min(...valsdate))
+        });
+        result = iterator.next();
+    }
+    var results = {
+        values: values,
+        dates: dates
+    }
+    return results;
+}
+
 function drawStaticLineGraph(ctx, acc, start, end) {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
-        if (this.readyState == 4 && this.status == 200) {
-            var data = JSON.parse(this.responseText);
-            if (data.length > 0) {
-                putMax(acc, data, "staticTempMax");
-                putMin(acc, data, "staticTempMin");
-                putMed(acc, data, "staticTempMed");
-                putAmp(acc, data, "staticTempAmp");
-                var sMedida = getCookie(acc + "&" + "sMeasure");
-                if (sMedida == "fahrenheit") {
-                    var values = data.map(x => parseFloat(x.value) * 9 / 5 + 32);
-                } else {
-                    var values = data.map(x => parseFloat(x.value));
-                }
-                vLabels = data.map(x => new Date(x.date).toDateString());
-                new Chart(ctx, {
-                    // The type of chart we want to create
-                    type: 'bar',
-
-                    // The data for our dataset
-                    data: {
-                        labels: vLabels,
-                        datasets: [{
-                            label: "My First dataset",
-                            backgroundColor: 'rgb(55, 55, 55)',
-                            borderColor:
-                                'rgba(0,0,0,1)'
-                            ,
-                            borderWidth: 1,
-
-                            data: values,
-                        }]
-                    },
-
-                    // Configuration options go here
-                    options: {
-                        maintainAspectRatio: false,
-                        legend: {
-                            display: false,
-                        },
-                        scales: {
-                            yAxes: [{
-                                ticks: {
-                                    fontColor: "#000",
-                                    fontSize: 12
-                                },
-                                stacked: true,
-                            }],
-                            xAxes: [{
-                                display: false
-                            }]
-                        },
-                        animation: {
-                            duration: 5000, // general animation time
-                        },
+        if (this.readyState == 4) {
+            if (this.status == 200) {
+                var data = JSON.parse(this.responseText);
+                if (data.length > 0) {
+                    putMax(acc, data, "staticTempMax");
+                    putMin(acc, data, "staticTempMin");
+                    putMed(acc, data, "staticTempMed");
+                    putAmp(acc, data, "staticTempAmp");
+                    var sMedida = getCookie(acc + "&" + "sMeasure");
+                    if (sMedida == "fahrenheit") {
+                        var values = data.map(x => parseFloat(x.value) * 9 / 5 + 32);
+                    } else {
+                        var values = data.map(x => parseFloat(x.value));
                     }
-                });
+
+                    var diference = new Date(end).getTime() - new Date(end).getTime();
+                    let grouped = [];
+                    if (diference > 97372800000) {
+                        grouped = groupBy(data, x => new Date(x.date).getFullYear());
+                    } else if (diference > 7858800000) {
+                        grouped = groupBy(data, x => new Date(x.date).getMonth());
+                    } else if (diference > 1209600000) {
+                        grouped = groupBy(data, x => new Date(x.date).getWeek(x.date));
+                    } else {
+                        grouped = groupBy(data, x => new Date(x.date).getHours());
+                    }
+                    var staticDate = getValuesByWeak(grouped);
+                    var mins = staticDate.values.map(x => x.min);
+                    var maxs = staticDate.values.map(x => x.max);
+                    vLabels = staticDate.dates.map(x => "Entre " + x.minDate + " e " + x.maxDate);
+                    new Chart(ctx, {
+                        // The type of chart we want to create
+                        type: 'bar',
+
+                        // The data for our dataset
+                        data: {
+                            labels: vLabels,
+                            datasets: [
+                                {
+                                    label: 'Minimo',
+                                    data: mins,
+                                    scaleBeginAtZero: true,
+                                    type: 'bar',
+                                    borderWidth: 1,
+                                    borderColor: 'rgb(0, 0, 0)',
+                                    backgroundColor: 'rgba(0, 129, 214, 0.8)',
+                                },
+                                {
+                                    label: 'Máximo',
+                                    data: maxs,
+                                    borderWidth: 1,
+                                    scaleBeginAtZero: true,
+                                    type: 'bar',
+                                    borderColor: 'rgb(0, 0, 0)',
+                                    backgroundColor: 'rgba(0,129, 118, 0.8)',
+                                }
+                            ]
+                        },
+
+                        // Configuration options go here
+                        options: {
+                            maintainAspectRatio: false,
+                            legend: {
+                                display: false,
+                            },
+                            scales: {
+                                yAxes: [{
+                                    ticks: {
+                                        fontColor: "#000",
+                                        fontSize: 12,
+                                        beginAtZero: true,
+                                        suggestedMin: 0
+                                    },
+                                    gridLines: {
+                                        color: "#000",
+                                        lineWidth: 1,
+                                        zeroLineColor: "#000",
+                                        zeroLineWidth: 1
+                                    }
+                                }],
+                                xAxes: [{
+                                    display: false
+                                }]
+                            },
+                            animation: {
+                                duration: 2000, // general animation time
+                            },
+                        }
+                    });
+                } else {
+                    document.getElementById("staticGraph").textContent = "Não existem dados para apresentar o gráfico!";
+                    document.getElementById("staticGraph").style.fontSize = "24px";
+                    document.getElementById("staticGraph").style.paddingTop = "200px";
+                    document.getElementById("staticTempMax").textContent = "Sem dados";
+                    document.getElementById("staticTempMax").textContent = "Sem dados";
+                    document.getElementById("staticTempMax").textContent = "Sem dados";
+                    document.getElementById("staticTempMax").textContent = "Sem dados";
+                }
             } else {
-                document.getElementById("staticGraph").textContent = "Não existem dados para apresentar o gráfico!"
+                document.getElementById("staticGraph").textContent = "Não existem dados para apresentar o gráfico!";
                 document.getElementById("staticGraph").style.fontSize = "24px";
                 document.getElementById("staticGraph").style.paddingTop = "200px";
-                document.getElementById("dynTempMax").textContent = "Sem dados";
-                document.getElementById("dynTempMin").textContent = "Sem dados";
-                document.getElementById("dynTempMed").textContent = "Sem dados";
-                document.getElementById("dynTempAmp").textContent = "Sem dados";
+                document.getElementById("staticTempMax").textContent = "Sem dados";
+                document.getElementById("staticTempMax").textContent = "Sem dados";
+                document.getElementById("staticTempMax").textContent = "Sem dados";
+                document.getElementById("staticTempMax").textContent = "Sem dados";
             }
         }
     };
@@ -353,6 +467,20 @@ function destroyCookies() {
     setCookie("account", null, 0);
     setCookie("name", null, 0);
     setCookie("email", null, 0);
+}
+
+function groupBy(list, keyGetter) {
+    const map = new Map();
+    list.forEach((item) => {
+        const key = keyGetter(item);
+        const collection = map.get(key);
+        if (!collection) {
+            map.set(key, [item]);
+        } else {
+            collection.push(item);
+        }
+    });
+    return map;
 }
 
 document.onreadystatechange = function checkUser() {

@@ -10,7 +10,7 @@ body {
 
 #imgLogout {
     width: 30px;
-    height: 100%;
+    height: 30px;
 }
 
 #welcomeImage {
@@ -19,6 +19,11 @@ body {
     height:400px; 
     width:60%;
     box-shadow: 5px 5px black;
+}
+
+.tableTemps{
+    width: 50%; 
+    text-align: center;
 }
 
 .graph {
