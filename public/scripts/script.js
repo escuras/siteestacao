@@ -348,17 +348,20 @@ function drawStaticLineGraph(ctx, acc, start, end) {
                     putMin(acc, data, "staticTempMin");
                     putMed(acc, data, "staticTempMed");
                     putAmp(acc, data, "staticTempAmp");
-                    var diference = new Date(end).getTime() - new Date(end).getTime();
+                    var diference = new Date(end).getTime() - new Date(start).getTime();
                     let grouped = [];
                     if (diference > 97372800000) {
                         grouped = groupBy(data, x => new Date(x.date).getFullYear());
-                    } else if (diference > 7858800000) {
+                    } else if (diference > 7686000000) {
                         grouped = groupBy(data, x => new Date(x.date).getMonth());
-                    } else if (diference > 1209600000) {
+                    } else if (diference > 2419140000) {
                         grouped = groupBy(data, x => new Date(x.date).getWeek(x.date));
+                    } else if (diference > 86400000) {
+                        grouped = groupBy(data, x => new Date(x.date).getDay());
                     } else {
                         grouped = groupBy(data, x => new Date(x.date).getHours());
                     }
+                    console.log(diference);
                     var staticDate = getValuesByWeak(grouped);
                     var mins = staticDate.values.map(x => x.min);
                     var maxs = staticDate.values.map(x => x.max);
