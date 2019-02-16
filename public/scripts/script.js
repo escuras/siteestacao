@@ -81,8 +81,14 @@ function getConfigurations() {
         sMeasure.value = "celsius";
     }
 
-    document.getElementById("inputAccount").value = account;
-    document.getElementById("spanAccount").textContent = account;
+    var inputAccount = document.getElementById("inputAccount");
+    if (inputAccount) {
+        inputAccount.value = account;
+    }
+    var spanAccount = document.getElementById("spanAccount");
+    if (spanAccount) {
+        spanAccount.textContent = account;
+    }
 }
 
 function getCookie(cname) {
