@@ -361,7 +361,6 @@ function drawStaticLineGraph(ctx, acc, start, end) {
                     } else {
                         grouped = groupBy(data, x => new Date(x.date).getHours());
                     }
-                    console.log(diference);
                     var staticDate = getValuesByWeak(grouped);
                     var mins = staticDate.values.map(x => x.min);
                     var maxs = staticDate.values.map(x => x.max);
