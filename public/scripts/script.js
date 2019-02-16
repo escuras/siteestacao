@@ -519,7 +519,7 @@ document.onreadystatechange = function checkUser() {
             var liConfig = document.getElementById("liConfig");
             var pInformation = document.getElementById("pInformation");
             var divLogout = document.getElementById("divLogout");
-            var welcomeImage = document.getElementById("welcomeImage");
+            var welcomeDiv = document.getElementById("divWelcome");
             if (account) {
                 if (pInformation) {
                     if (firstTime) {
@@ -539,9 +539,9 @@ document.onreadystatechange = function checkUser() {
                     this.body.appendChild(divGraphs);
                     temperatureGraphics();
                 }
-                if (welcomeImage) {
-                    welcomeImage.src = "/images/graficos.png";
-                    welcomeImage.style.height = "150px";
+                if (welcomeDiv) {
+                    welcomeDiv.className = "welcomeDivAlt";
+                    welcomeDiv.textContent = "Gráficos";
                 }
                 if (liConfig) {
                     var headbar = document.getElementById("headbar");
@@ -564,9 +564,9 @@ document.onreadystatechange = function checkUser() {
                     }
                 }
             } else {
-                if (welcomeImage) {
-                    welcomeImage.src = "/images/weather.jpeg";
-                    welcomeImage.style.height = "400px";
+                if (welcomeDiv) {
+                    welcomeDiv.className = "welcomeDiv";
+                    welcomeDiv.textContent = "Estacão meteorológica com RaspBerry";
                 }
                 if (liConfig) {
                     liConfig.remove();
