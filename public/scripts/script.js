@@ -259,23 +259,17 @@ function drawDynamicLineGraph(ctx, acc, start, end) {
                     });
                 } else {
                     document.getElementById("dynamicGraph").textContent = "Não existem dados para apresentar o gráfico!";
-                    document.getElementById("staticGraph").textContent = "Não existem dados para apresentar o gráfico!";
                     document.getElementById("dynamicGraph").style.fontSize = "24px";
                     document.getElementById("dynamicGraph").style.paddingTop = "200px";
-                    document.getElementById("staticGraph").style.fontSize = "24px";
-                    document.getElementById("staticGraph").style.paddingTop = "200px";
                     document.getElementById("dynTempMax").textContent = "Sem dados";
                     document.getElementById("dynTempMax").textContent = "Sem dados";
                     document.getElementById("dynTempMax").textContent = "Sem dados";
                     document.getElementById("dynTempMax").textContent = "Sem dados";
                 }
             } else {
-                document.getElementById("staticGraph").textContent = "Não existem dados para apresentar o gráfico!";
                 document.getElementById("dynamicGraph").textContent = "Não existem dados para apresentar o gráfico!";
                 document.getElementById("dynamicGraph").style.fontSize = "24px";
                 document.getElementById("dynamicGraph").style.paddingTop = "200px";
-                document.getElementById("staticGraph").style.fontSize = "24px";
-                document.getElementById("staticGraph").style.paddingTop = "200px";
                 document.getElementById("dynTempMax").textContent = "Sem dados";
                 document.getElementById("dynTempMax").textContent = "Sem dados";
                 document.getElementById("dynTempMax").textContent = "Sem dados";
