@@ -560,7 +560,7 @@ document.onreadystatechange = function checkUser() {
             } else {
                 if (welcomeDiv) {
                     welcomeDiv.className = "welcomeDiv";
-                    welcomeDiv.textContent = "Posto meteorológica com RaspBerry";
+                    welcomeDiv.textContent = "Posto meteorológica <br/> com RaspBerry";
                 }
                 if (liConfig) {
                     liConfig.remove();
