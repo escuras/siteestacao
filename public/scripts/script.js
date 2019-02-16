@@ -64,14 +64,14 @@ function getConfigurations() {
     if (cookies.dynduration) {
         dynduration.value = cookies.dynduration;
     } else {
-        dynduration.value = "43200";
+        dynduration.value = "21600";
     }
 
     var period = document.getElementById("period");
     if (cookies.period) {
         period.value = cookies.period;
     } else {
-        period.value = "18000000";
+        period.value = "1800000";
     }
 
     var sMeasure = document.getElementById("sMeasure");
