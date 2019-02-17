@@ -610,7 +610,7 @@ function temperatureGraphics() {
     }
     var staticTimeEnd = getCookie(account + "&" + "staticTimeEnd");
     if (!staticTimeEnd) {
-        staticTimeEnd = "29:59";
+        staticTimeEnd = "23:59";
         setCookie(account + "&" + "staticTimeEnd", staticTimeEnd, 1);
     }
     var dynduration = getCookie(account + "&" + "dynduration");
