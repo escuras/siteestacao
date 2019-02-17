@@ -36,14 +36,17 @@ function getConfigurations() {
     if (cookies.staticDateStart) {
         staticDateStart.valueAsDate = new Date(cookies.staticDateStart);
     } else {
-        staticDateStart.valueAsDate = new Date();
+        var dat = new Date();
+        staticDateStart.valueAsDate = dat;
+
     }
 
     var staticDateEnd = document.getElementById("staticDateEnd");
     if (cookies.staticDateEnd) {
         staticDateEnd.valueAsDate = new Date(cookies.staticDateEnd);
     } else {
-        staticDateEnd.valueAsDate = new Date();
+        var dat = new Date();
+        staticDateEnd.valueAsDate = dat;
     }
 
     var staticTimeStart = document.getElementById("staticTimeStart");
@@ -588,10 +591,33 @@ document.onreadystatechange = function checkUser() {
 function temperatureGraphics() {
     let account = localStorage.getItem("account");
     var staticDateStart = getCookie(account + "&" + "staticDateStart");
+    var dat = new Date();
+    if (!staticDateStart) {
+        staticDateStart = dat.getFullYear() + "-" + (dat.getMonth() + 1) + "-" + dat.getDate();
+        console.log(staticDateStart);
+        setCookie(account + "&" + "staticDateStart", staticDateStart, 1);
+    }
     var staticDateEnd = getCookie(account + "&" + "staticDateEnd");
+    if (!staticDateEnd) {
+        staticDateEnd = dat.getFullYear() + "-" + (dat.getMonth() + 1) + "-" + dat.getDate();
+        console.log(staticDateEnd);
+        setCookie(account + "&" + "staticDateEnd", staticDateEnd, 1);
+    }
     var staticTimeStart = getCookie(account + "&" + "staticTimeStart");
+    if (!staticTimeStart) {
+        staticTimeStart = "00:00";
+        setCookie(account + "&" + "staticTimeStart", staticTimeStart, 1);
+    }
     var staticTimeEnd = getCookie(account + "&" + "staticTimeEnd");
+    if (!staticTimeEnd) {
+        staticTimeEnd = "29:59";
+        setCookie(account + "&" + "staticTimeEnd", staticTimeEnd, 1);
+    }
     var dynduration = getCookie(account + "&" + "dynduration");
+    if (!dynduration) {
+        dynduration = "21600";
+        setCookie(account + "&" + "dynduration", dynduration, 1);
+    }
     var dateOffset = (dynduration * 1000)
     var start = new Date().getTime() - dateOffset;
     if (account) {
