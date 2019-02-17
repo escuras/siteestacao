@@ -30,6 +30,9 @@ function graphicsCookies() {
 
 function getConfigurations() {
     var account = localStorage.getItem("account");
+    if (!account) {
+        window.location.replace("/");
+    }
     var cookies = graphicsCookies();
 
     var staticDateStart = document.getElementById("staticDateStart");
