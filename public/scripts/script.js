@@ -221,7 +221,7 @@ function drawDynamicLineGraph(ctx, acc, start, end) {
                         data: {
                             labels: vLabels,
                             datasets: [{
-                                label: "My First dataset",
+                                label: "Gráfico dinâmico",
                                 borderColor: [
                                     'rgba(0,0,0,1)',
 
@@ -236,6 +236,10 @@ function drawDynamicLineGraph(ctx, acc, start, end) {
 
                         // Configuration options go here
                         options: {
+                            title: {
+                                display: true,
+                                text: 'Gráfico dinâmico'
+                            },
                             maintainAspectRatio: false,
                             legend: {
                                 display: false,
@@ -354,6 +358,7 @@ function drawStaticLineGraph(ctx, acc, start, end) {
                     putMin(acc, data, "staticTempMin");
                     putMed(acc, data, "staticTempMed");
                     putAmp(acc, data, "staticTempAmp");
+
                     var diference = new Date(end).getTime() - new Date(start).getTime();
                     let grouped = [];
                     if (diference > 97372800000) {
@@ -410,6 +415,10 @@ function drawStaticLineGraph(ctx, acc, start, end) {
 
                         // Configuration options go here
                         options: {
+                            title: {
+                                display: true,
+                                text: 'Gráfico com intervalo temporal'
+                            },
                             maintainAspectRatio: false,
                             legend: {
                                 display: false,
@@ -493,7 +502,6 @@ function groupBy(list, keyGetter) {
 }
 
 document.onreadystatechange = function checkUser() {
-    var load = document.readyState;
     switch (document.readyState) {
         case "interactive":
             var account = getCookie("account");
@@ -597,13 +605,11 @@ function temperatureGraphics() {
     var dat = new Date();
     if (!staticDateStart) {
         staticDateStart = dat.getFullYear() + "-" + (dat.getMonth() + 1) + "-" + dat.getDate();
-        console.log(staticDateStart);
         setCookie(account + "&" + "staticDateStart", staticDateStart, 1);
     }
     var staticDateEnd = getCookie(account + "&" + "staticDateEnd");
     if (!staticDateEnd) {
         staticDateEnd = dat.getFullYear() + "-" + (dat.getMonth() + 1) + "-" + dat.getDate();
-        console.log(staticDateEnd);
         setCookie(account + "&" + "staticDateEnd", staticDateEnd, 1);
     }
     var staticTimeStart = getCookie(account + "&" + "staticTimeStart");
