@@ -658,6 +658,12 @@ function temperatureGraphics() {
         var sDateI = new Date(year, month - 1, day, hours, minutes);
         var sDateF = new Date(year2, month2 - 1, day2, hours2, minutes2);
         drawStaticLineGraph(ctxStatic, account, sDateI, sDateF);
+        function staticIntervalTemperature() {
+            setInterval(function getTemp() {
+                drawStaticLineGraph(ctxStatic, account, sDateI, sDateF);
+            }, 60000, true);
+        }
+        staticIntervalTemperature();
         dynamicIntervalTemperature();
     }
 }

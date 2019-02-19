@@ -87,7 +87,6 @@ router.get("/temp", function (req, res) {
             }
 
             var data = JSON.parse(JSON.stringify(this.responseText));
-            console.log(data);
             res.send(data);
         }
     };
@@ -99,8 +98,6 @@ router.get("/temp", function (req, res) {
         res.render("infoback", { text: "Configure os períodos de leitura." });
         return;
     }
-    console.log(stDate);
-    console.log(edDate);
     var params = "?account=" + account + "&start=" + stDate + "&end=" + edDate;
     xhttp.open("GET", herokuUrl + "/api/temperature/get" + params);
     xhttp.setRequestHeader("Content-Type", "application/json;  charset=utf-8");
@@ -158,9 +155,6 @@ router.post("/createuser", function (req, res) {
     var name = req.body.name;
     var password = req.body.password;
     var email = req.body.email;
-    console.log(name);
-    console.log(password);
-    console.log(email);
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function () {
         if (this.readyState == 4) {
