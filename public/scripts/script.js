@@ -361,14 +361,14 @@ function drawStaticLineGraph(ctx, acc, start, end) {
 
                     var diference = new Date(end).getTime() - new Date(start).getTime();
                     let grouped = [];
-                    if (diference > 97372800000) {
+                    if (diference > 756338400000) {
                         grouped = groupBy(data, x => new Date(x.date).getFullYear());
-                    } else if (diference > 7686000000) {
+                    } else if (diference > 7770600000) {
                         grouped = groupBy(data, x => new Date(x.date).getMonth());
-                    } else if (diference > 2419140000) {
+                    } else if (diference > 1899480000) {
                         grouped = groupBy(data, x => new Date(x.date).getWeek(x.date));
-                    } else if (diference > 86400000) {
-                        grouped = groupBy(data, x => new Date(x.date).getDay());
+                    } else if (diference > 86340000) {
+                        grouped = groupBy(data, x => new Date(x.date).getDate());
                     } else {
                         grouped = groupBy(data, x => new Date(x.date).getHours());
                     }
